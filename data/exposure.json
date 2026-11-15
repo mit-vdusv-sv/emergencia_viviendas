@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "name": "SNGR · ArcGIS público",
+    "url": "https://alertasecuador.gob.ec/el_nino/zonas-expuestas/",
+    "retrievedAt": "2026-11-15T07:09:47.617Z"
+  },
+  "complete": true,
+  "note": "Análisis de exposición hasta la cota de 1.500 m: 483 parroquias publicadas, 16 provincias. No es un registro en tiempo real de incidentes. Se suman solo valores publicados; no se imputan nulos.",
+  "provinces": [
+    {
+      "province": "AZUAY",
+      "flood": 950,
+      "landslide": 13651,
+      "parishes": 12
+    },
+    {
+      "province": "BOLÍVAR",
+      "flood": 1117,
+      "landslide": 30228,
+      "parishes": 16
+    },
+    {
+      "province": "CAÑAR",
+      "flood": 398,
+      "landslide": 12946,
+      "parishes": 10
+    },
+    {
+      "province": "CARCHI",
+      "flood": 245,
+      "landslide": 7339,
+      "parishes": 7
+    },
+    {
+      "province": "CHIMBORAZO",
+      "flood": 63,
+      "landslide": 10663,
+      "parishes": 8
+    },
+    {
+      "province": "COTOPAXI",
+      "flood": 772,
+      "landslide": 17136,
+      "parishes": 12
+    },
+    {
+      "province": "EL ORO",
+      "flood": 64044,
+      "landslide": 47565,
+      "parishes": 64
+    },
+    {
+      "province": "ESMERALDAS",
+      "flood": 21755,
+      "landslide": 17379,
+      "parishes": 64
+    },
+    {
+      "province": "GUAYAS",
+      "flood": 557556,
+      "landslide": 54285,
+      "parishes": 54
+    },
+    {
+      "province": "IMBABURA",
+      "flood": 452,
+      "landslide": 11022,
+      "parishes": 9
+    },
+    {
+      "province": "LOJA",
+      "flood": 2443,
+      "landslide": 95040,
+      "parishes": 81
+    },
+    {
+      "province": "LOS RÍOS",
+      "flood": 109752,
+      "landslide": 65848,
+      "parishes": 30
+    },
+    {
+      "province": "MANABÍ",
+      "flood": 90253,
+      "landslide": 65290,
+      "parishes": 78
+    },
+    {
+      "province": "PICHINCHA",
+      "flood": 1145,
+      "landslide": 38085,
+      "parishes": 15
+    },
+    {
+      "province": "SANTA ELENA",
+      "flood": 11934,
+      "landslide": 10771,
+      "parishes": 11
+    },
+    {
+      "province": "SANTO DOMINGO DE LOS TSÁCHILAS",
+      "flood": 114,
+      "landslide": 18988,
+      "parishes": 12
+    }
+  ],
+  "coverage": {
+    "pob_inu_alt_med": 483,
+    "pob_inu_alta": 483,
+    "pob_inu_media": 483,
+    "pob_mm_ma_alt": 483,
+    "pob_mm_muy_alta": 483,
+    "pob_mm_alta": 483
+  },
+  "layers": [
+    {
+      "title": "Inundaciones",
+      "description": "Población expuesta a susceptibilidad alta y media. No sumar a movimientos en masa.",
+      "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Hosted/POB_VIV_MM_INU_PARR_STATIS_C1500/FeatureServer/0",
+      "editedAt": "2026-09-06T14:04:23.287Z",
+      "totals": {
+        "Alta + media": 862993,
+        "Alta": 516185.40100000985,
+        "Media": 346816.1879999998
+      },
+      "coverage": "483/483 parroquias con dato"
+    },
+    {
+      "title": "Movimientos en masa",
+      "description": "Población expuesta a susceptibilidad muy alta y alta. No equivale a población afectada.",
+      "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Hosted/POB_VIV_MM_INU_PARR_STATIS_C1500/FeatureServer/0",
+      "editedAt": "2026-09-06T14:04:23.287Z",
+      "totals": {
+        "Muy alta + alta": 516236,
+        "Muy alta": 115267.08600000007,
+        "Alta": 400963.89300000004
+      },
+      "coverage": "483/483 parroquias con dato"
+    }
+  ],
+  "serviceCatalog": [
+    {
+      "name": "Inundaciones · polígonos",
+      "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Hosted/ZONAS_SUSCEPTIBLES_INUNDACIONES_CT1500_t/MapServer"
+    },
+    {
+      "name": "Movimientos en masa · polígonos",
+      "url": "https://sgrportal.gestionderiesgos.gob.ec/server/rest/services/Hosted/SUSCEPTIBILIDAD_MOV_MASAS_CT1500/FeatureServer/0"
+    }
+  ]
+}

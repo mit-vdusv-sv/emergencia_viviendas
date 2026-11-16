@@ -1,0 +1,12 @@
+{
+  "source": {
+    "name": "INAMHI / Comité ERFEN · INOCAR",
+    "url": "https://servicios.inamhi.gob.ec/fenomeno-el-nino/",
+    "retrievedAt": "2026-11-15T07:09:47.504Z"
+  },
+  "latest": {
+    "date": "2026-10-22",
+    "url": "https://www.inocar.mil.ec/boletin/ERFEN/erfen_20261022.pdf"
+  },
+  "note": "Último enlace localizado en INAMHI. Es un boletín periódico; revisar su período de validez en el PDF."
+}

@@ -36,22 +36,36 @@ export function parseHousing(text,{name='Google Sheets',retrievedAt=new Date().t
     const header=rows.find(r=>normalize(r[0])==='provincia');
     if(!header||!normalize(header[1]).includes('hogares')||normalize(header[2])!=='amarillo'||normalize(header[6])!=='rojo')throw new Error('La estructura de la hoja cambió. Usa la plantilla CSV o revisa las columnas originales.');
   }
+  const sourceIssues=[];
+  const readCount=(value,label,field,row,province)=>{
+    // La hoja original puede contener una observación en la columna N.
+    // Conservamos el texto y dejamos ese total pendiente; los conteos siguen siendo estrictos.
+    if(!canonical&&field==='combinedReported'&&/\p{L}/u.test(String(value??''))){
+      sourceIssues.push({code:'text_in_total',province,field,cell:`N${rows.indexOf(row)+1}`,value:String(value).trim()});
+      return null;
+    }
+    return count(value,label);
+  };
   const records=[]; const seen=new Set();const lookup=new Map(Object.keys(PROVINCES).map(p=>[normalize(p),p]));
   for(const row of rows.slice(canonical?1:0)) {
     const province=lookup.get(normalize(row[0]));
     if(!province){if(canonical&&row.some(c=>c.trim()))throw new Error(`Provincia desconocida: ${row[0]}`);continue;}
     if(seen.has(province))throw new Error(`Provincia duplicada: ${province}`);seen.add(province);
     const record={province,region:PROVINCES[province]};
-    FIELDS.forEach((field,i)=>record[field]=count(row[i+1],`${province}, ${field}`));record.observations=row[14]?.trim()||'';records.push(record);
+    FIELDS.forEach((field,i)=>record[field]=readCount(row[i+1],`${province}, ${field}`,field,row,province));
+    const notes=[row[14]?.trim()||'',...sourceIssues.filter(issue=>issue.province===province).map(issue=>issue.value)];
+    record.observations=[...new Set(notes.filter(Boolean))].join('\n');records.push(record);
   }
   if(records.length!==24)throw new Error(`Se esperaban las 24 provincias; se recibieron ${records.length}.`);
   const cutRow=rows.find(r=>normalize(r[0])==='fecha de corte');
   const sourceTotals=rows.find(r=>normalize(r[0])==='total nacional');
-  return {schemaVersion:1,source:{name,url:sourceUrl,retrievedAt,reportDate:cutRow?.slice(1).find(c=>c.trim())||null},reportedTotals:sourceTotals?Object.fromEntries(FIELDS.map((f,i)=>[f,count(sourceTotals[i+1],`total ${f}`)])):null,records};
+  const reportedTotals=sourceTotals?Object.fromEntries(FIELDS.map((f,i)=>[f,readCount(sourceTotals[i+1],`total ${f}`,f,sourceTotals,'Total nacional')])):null;
+  return {schemaVersion:1,source:{name,url:sourceUrl,retrievedAt,reportDate:cutRow?.slice(1).find(c=>c.trim())||null},reportedTotals,records,sourceIssues};
 }
 export function aggregate(records,field){const values=records.map(r=>r[field]).filter(v=>v!==null&&v!==undefined);return {value:values.length?values.reduce((a,b)=>a+b,0):null,known:values.length,total:records.length};}
 export function quality(data){
   const issues=[]; const {records}=data;const total=aggregate(records,'affected').value;
+  for(const issue of data.sourceIssues||[])issues.push({level:'warning',title:`${issue.province}: texto en el total (${issue.cell})`,detail:`La celda contiene una observación: «${issue.value}». Se conserva el texto y el total queda pendiente, sin convertirlo en cero. Revisa su ubicación en la hoja.`});
   if(!data.source.reportDate)issues.push({level:'warning',title:'Fecha de corte sin registrar',detail:'La fecha de consulta no indica cuándo ocurrieron las afectaciones. Completa la fecha en la fuente.'});
   const combined=aggregate(records,'combinedReported');
   if(combined.known<24)issues.push({level:'warning',title:`${24-combined.known} provincias sin total amarillo y rojo`,detail:'Los totales provinciales de la columna N están vacíos. No se interpretan como cero.'});

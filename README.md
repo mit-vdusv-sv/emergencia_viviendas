@@ -1,6 +1,6 @@
 # Atención Fenomeno del Niño
 
-Dashboard local para seguir beneficiarios pre calificados, atención de vivienda y contexto climático en Ecuador. La vivienda ocupa la pantalla principal. La paleta usa azul, amarillo y rojo sobre blanco.
+Dashboard local para seguir soluciones habitacionales a entregarse, atención de vivienda y contexto climático en Ecuador. La vivienda ocupa la pantalla principal. La paleta usa azul, amarillo y rojo sobre blanco.
 
 ## Abrir
 
@@ -14,7 +14,7 @@ Abre **http://127.0.0.1:4173** y mantén la terminal abierta. El servidor escuch
 
 ## Pantallas
 
-- **Resumen:** beneficiarios pre calificados como indicador principal, provincias con afectación, reparaciones menores, mapa y modalidades de atención. El clima aparece como complemento.
+- **Resumen:** soluciones habitacionales a entregarse como indicador principal, provincias con soluciones, reparaciones menores, mapa y modalidades de atención. El resumen no incluye el panel de contexto climático. La sección Clima continúa disponible.
 - **Vivienda:** tabla completa, búsqueda, filtros, detalle por provincia y exportación CSV.
 - **Clima:** avisos por zona, anomalías NOAA, último informe ERFEN y exposición territorial SNGR. Las explicaciones se despliegan al solicitarlas.
 - **Datos y fuentes:** importación de CSV propio, copias disponibles y observaciones de calidad.
@@ -43,11 +43,11 @@ node scripts/refresh.mjs
 
 La base procede de la [hoja suministrada](https://docs.google.com/spreadsheets/d/1WoxZ11c5MAoZ6nhcRymTvVK6GkV6kBOG/edit?gid=1128467625). La aplicación no modifica esa hoja.
 
-La interfaz usa el rótulo **Beneficiarios pre calificados**. El indicador conserva los valores de la columna B de la hoja, cuya unidad original es hogares.
+El indicador principal es **Soluciones habitacionales a entregarse** y toma el total nacional directamente de **N8**. La columna B ya no se usa ni se valida para el dashboard. En las vistas filtradas se suman los valores de N de las provincias seleccionadas.
 
-La captura inicial reporta 331 hogares en la columna B, frente a 379 en el resumen amarillo y rojo. Las modalidades pueden coincidir en un hogar y no se suman como casos únicos. Se conservan los ceros y los vacíos: un vacío es información pendiente. Los calificados forman parte de los identificados; no se calcula una tasa si no están registrados. La fecha de corte inicial está vacía.
+El mapa, la tabla, el detalle y su orden predeterminado usan la columna N. El contador incluye solo provincias con N mayor que cero. Un 0 es un dato registrado y una celda vacía sigue pendiente. Si N8 difiere de la suma provincial, el indicador nacional conserva el valor de N8 y las observaciones de calidad permiten revisar la diferencia.
 
-Las observaciones textuales no se transforman en casos. La mención de 48 viviendas en Manabí no reemplaza el 0 de la columna de hogares. Los subtotales rojos de la fuente se mantienen en el detalle con sus observaciones de calidad.
+Los campos originales de atención y sus valores se conservan. El nombre interno heredado de N es `combinedReported`; el campo `affected` se mantiene vacío solo para compatibilidad con las plantillas CSV anteriores.
 
 La importación admite el CSV original de la hoja o una plantilla de 24 provincias. Se guarda solo en el navegador. La exportación refleja el filtro actual; para importar una base completa se requieren las 24 provincias.
 

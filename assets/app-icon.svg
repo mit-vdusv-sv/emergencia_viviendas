@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <title>Atención Fenomeno del Niño</title>
+  <rect width="1024" height="1024" fill="#123B73"/>
+  <g transform="translate(160 149) scale(22)" fill="none" stroke="#F1CC3C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 3 28 9v9c0 6-12 12-12 12S4 24 4 18V9L16 3Z"/>
+    <path d="M9 17h5l3-7v14l3-7h4"/>
+  </g>
+</svg>

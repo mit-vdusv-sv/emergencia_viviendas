@@ -1,0 +1,31 @@
+{
+  "name": "Atención Fenomeno del Niño",
+  "short_name": "Atención Niño",
+  "lang": "es",
+  "description": "Seguimiento de soluciones habitacionales en Ecuador.",
+  "start_url": "../#panorama",
+  "scope": "../",
+  "display": "standalone",
+  "background_color": "#f2f4f6",
+  "theme_color": "#123B73",
+  "icons": [
+    {
+      "src": "app-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "app-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "app-icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

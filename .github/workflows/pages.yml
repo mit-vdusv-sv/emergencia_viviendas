@@ -1,0 +1,86 @@
+name: Publicar y actualizar dashboard
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    # Vivienda y alertas cada cinco minutos, evitando el inicio de la hora.
+    - cron: '2-57/5 * * * *'
+    # Todas las fuentes a las 00:19 de Ecuador continental (UTC-5).
+    - cron: '19 5 * * *'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      publish: ${{ steps.changes.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          package-manager-cache: false
+      - name: Validar cálculos y actualización
+        run: node --test tests/*.test.mjs
+      - name: Consultar fuentes y conservar respaldos
+        env:
+          SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          if [ "$SCHEDULE" = '2-57/5 * * * *' ]; then
+            node scripts/refresh.mjs --stable housing alerts
+          else
+            node scripts/refresh.mjs --stable
+          fi
+      - name: Guardar cambios de datos
+        id: changes
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          git add data/housing.json data/alerts.json data/ocean.json data/erfen.json data/exposure.json
+          if git diff --cached --quiet; then
+            if [ "$EVENT_NAME" = schedule ]; then
+              echo 'publish=false' >> "$GITHUB_OUTPUT"
+            else
+              echo 'publish=true' >> "$GITHUB_OUTPUT"
+            fi
+          else
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -m 'Actualizar copias de vivienda y clima'
+            git push
+            echo 'publish=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Preparar sitio estático
+        if: steps.changes.outputs.publish == 'true'
+        run: node scripts/build.mjs
+      - uses: actions/configure-pages@v5
+        if: steps.changes.outputs.publish == 'true'
+      - uses: actions/upload-pages-artifact@v4
+        if: steps.changes.outputs.publish == 'true'
+        with:
+          path: dist
+  deploy:
+    needs: build
+    if: needs.build.outputs.publish == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v4

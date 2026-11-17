@@ -1,16 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
-import {parseHousing,parseCSV,aggregate,quality,filterRecords,exportCSV,parseOcean,activeAlerts} from '../src/model.mjs';
+import {parseHousing,parseCSV,aggregate,quality,filterRecords,exportCSV,parseOcean,activeAlerts,solutionsTotal} from '../src/model.mjs';
 import {parseCAP,summarizeExposure} from '../src/connectors.mjs';
 const original=await fs.readFile(new URL('../data/hoja-original.csv',import.meta.url),'utf8');
 const housing=parseHousing(original);
-test('reconciliación independiente: hogares de columna B y pendientes conservados',()=>{
- assert.equal(housing.records.length,24);assert.equal(aggregate(housing.records,'affected').value,331);assert.equal(housing.records.filter(r=>r.affected>0).length,7);
+test('el total usa N8 y la columna B queda fuera del modelo activo',()=>{
+ assert.equal(housing.records.length,24);assert.equal(solutionsTotal(housing),379);assert.ok(housing.records.every(r=>r.affected===null));
  assert.equal(aggregate(housing.records,'minorIdentified').value,283);assert.equal(aggregate(housing.records,'rentIdentified').value,48);
- assert.equal(aggregate(housing.records,'minorQualified').value,null);assert.equal(housing.records.find(r=>r.province==='Manabí').affected,0);
+ assert.equal(aggregate(housing.records,'minorQualified').value,null);assert.equal(housing.records.find(r=>r.province==='Manabí').combinedReported,null);
  assert.equal(housing.source.reportDate,null);assert.equal(housing.reportedTotals.combinedReported,379);
- assert.ok(quality(housing).some(i=>i.title.includes('379')&&i.title.includes('331')));
+ assert.ok(quality(housing).some(i=>i.title.includes('sin dato de soluciones')));
+ assert.ok(!quality(housing).some(i=>i.detail.includes('columna B')));
  assert.ok(quality(housing).some(i=>i.title.includes('Esmeraldas')&&i.title.includes('únicos')));
 });
 test('CSV entrecomillado, ceros y vacíos sobreviven exportación/importación',()=>{
@@ -21,12 +22,13 @@ test('CSV entrecomillado, ceros y vacíos sobreviven exportación/importación',
 test('rechaza una base incompleta, duplicados y valores negativos sin reemplazar datos',()=>{
  assert.throws(()=>parseHousing(exportCSV(housing.records.slice(1))),/24 provincias/);
  const copy=structuredClone(housing.records);copy[0].province=copy[1].province;assert.throws(()=>parseHousing(exportCSV(copy)),/duplicada/);
- const csv=exportCSV(housing.records).replace('"Azuay","0"','"Azuay","-1"');assert.throws(()=>parseHousing(csv),/entero no negativo/);
+ const negative=structuredClone(housing.records);negative[0].combinedReported=-1;assert.throws(()=>parseHousing(exportCSV(negative)),/entero no negativo/);
  assert.throws(()=>parseHousing(original.replace('AMARILLO','DISTINTO')),/estructura/);
 });
 test('exportación neutraliza fórmulas y filtros conservan observaciones',()=>{
  const r=structuredClone(housing.records[0]);r.observations='=HYPERLINK("https://ejemplo.test")';assert.ok(exportCSV([r]).includes("'=HYPERLINK"));
- assert.equal(filterRecords(housing.records,{region:'Costa',onlyAffected:true}).length,4);
+ const solutions=structuredClone(housing.records);solutions.find(r=>r.province==='Guayas').combinedReported=334;
+ assert.deepEqual(filterRecords(solutions,{region:'Costa',onlyAffected:true}).map(r=>r.province),['Guayas']);
  assert.equal(filterRecords(housing.records,{search:'EVIN'})[0].province,'Manabí');
  assert.equal(filterRecords(housing.records,{search:'galapagos'})[0].province,'Galápagos');
 });

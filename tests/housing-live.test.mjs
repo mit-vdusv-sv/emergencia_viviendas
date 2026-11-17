@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import {readHousingDirect,createHousingSync,sameHousing,HOUSING_INTERVAL} from '../src/housing-live.mjs';
-import {parseHousing,aggregate} from '../src/model.mjs';
+import {parseHousing,parseCSV,solutionsTotal} from '../src/model.mjs';
 const csv=await fs.readFile(new URL('../data/hoja-original.csv',import.meta.url),'utf8');
 const baseline=parseHousing(csv);
 const flush=async()=>{for(let i=0;i<12;i++)await Promise.resolve();};
@@ -12,7 +12,7 @@ test('vivienda consulta directamente la hoja sin API local ni archivos publicado
  const calls=[];let text=csv;
  const fetcher=async(url,options)=>{calls.push({url:new URL(url),options});return {ok:true,text:async()=>text};};
  const a=await readHousingDirect({fetcher,now:()=>1000});
- text=csv.replace('Azuay,0,','Azuay,100,');
+ const rows=parseCSV(csv);rows[7][13]='411';text=rows.map(row=>row.map(v=>'"'+v.replaceAll('"','""')+'"').join(',')).join('\r\n');
  // El contador evita reutilizar la URL incluso en el mismo milisegundo.
  const b=await readHousingDirect({fetcher,now:()=>1000});
  assert.equal(calls[0].url.origin,'https://docs.google.com');
@@ -20,19 +20,19 @@ test('vivienda consulta directamente la hoja sin API local ni archivos publicado
  assert.equal(calls[0].url.searchParams.get('format'),'csv');
  assert.notEqual(calls[0].url.href,calls[1].url.href);
  assert.ok(calls.every(c=>c.options.cache==='no-store'&&c.options.credentials==='omit'));
- assert.equal(a.records.length,24);assert.equal(aggregate(a.records,'affected').value,331);
- assert.equal(aggregate(b.records,'affected').value,431);
+ assert.equal(a.records.length,24);assert.equal(solutionsTotal(a),379);
+ assert.equal(solutionsTotal(b),411);
  assert.ok(!sameHousing(a,b));
  assert.ok(sameHousing(a,{...a,source:{...a.source,retrievedAt:'2020-01-01T00:00:00Z'}}));
 });
 
 test('los cambios llegan por el ciclo de tres segundos sin esperar al de cinco minutos',async()=>{
  const time=clock();let current=baseline,reads=0,changed=[];
- const updated=structuredClone(baseline);updated.records[0].affected=100;
+ const updated=structuredClone(baseline);updated.reportedTotals.combinedReported=411;
  const sync=createHousingSync({...time,getCurrent:()=>current,read:async()=>++reads===1?baseline:updated,onData:(data,meta)=>{current=data;changed.push(meta.changed);}});
  await sync.start({immediate:true});assert.equal(reads,1);
  await time.advance(HOUSING_INTERVAL-1);assert.equal(reads,1);
- await time.advance(1);assert.equal(reads,2);assert.equal(aggregate(current.records,'affected').value,431);
+ await time.advance(1);assert.equal(reads,2);assert.equal(solutionsTotal(current),411);
  assert.deepEqual(changed,[false,true]);
  sync.stop();await time.advance(300000);assert.equal(reads,2);
  await sync.start({immediate:true});assert.equal(reads,3);sync.stop();

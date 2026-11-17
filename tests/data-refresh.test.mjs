@@ -43,10 +43,10 @@ test('el modo estable conserva la copia idéntica y guarda cambios reales',async
   const before=await fs.readFile(file,'utf8');
   await refreshOne('housing',{directory,preserveUnchanged:true});
   assert.equal(await fs.readFile(file,'utf8'),before);
-  initial.records[0].affected=99999;
+  initial.records[0].combinedReported=99999;
   await fs.writeFile(file,JSON.stringify(initial));
   const updated=await refreshOne('housing',{directory,preserveUnchanged:true});
-  assert.notEqual(updated.records[0].affected,99999);
+  assert.notEqual(updated.records[0].combinedReported,99999);
   assert.deepEqual(JSON.parse(await fs.readFile(file,'utf8')),updated);
  }finally{
   globalThis.fetch=originalFetch;

@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {refreshOne} from './refresh.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));const port=Number(process.env.PORT||4173);
 const cache=new Map();const pending=new Map();const TTL={housing:300000,alerts:300000,ocean:21600000,erfen:86400000,exposure:86400000};
-const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.csv':'text/csv; charset=utf-8','.woff2':'font/woff2'};
+const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json; charset=utf-8','.csv':'text/csv; charset=utf-8','.woff2':'font/woff2'};
 const server=http.createServer(async(req,res)=>{
  res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');
  try{const url=new URL(req.url,'http://localhost');if(req.method!=='GET'){res.writeHead(405);return res.end('Method not allowed');}

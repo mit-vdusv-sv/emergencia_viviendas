@@ -3,11 +3,11 @@
   "source": {
     "name": "Google Sheets",
     "url": "https://docs.google.com/spreadsheets/d/1WoxZ11c5MAoZ6nhcRymTvVK6GkV6kBOG/edit?gid=1128467625",
-    "retrievedAt": "2026-11-17T03:20:38.083Z",
+    "retrievedAt": "2026-11-17T03:36:32.412Z",
     "reportDate": null
   },
   "reportedTotals": {
-    "affected": 431,
+    "affected": 331,
     "minorIdentified": 176,
     "minorQualified": null,
     "majorIdentified": null,
@@ -25,7 +25,7 @@
     {
       "province": "Azuay",
       "region": "Sierra",
-      "affected": 100,
+      "affected": 0,
       "minorIdentified": null,
       "minorQualified": null,
       "majorIdentified": null,

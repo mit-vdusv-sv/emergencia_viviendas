@@ -10,6 +10,7 @@ export const PROVINCES = {
 };
 export const FIELDS = ['affected','minorIdentified','minorQualified','majorIdentified','majorQualified','rentIdentified','rentQualified','tupeIdentified','tupeQualified','tpIdentified','tpQualified','redUniqueReported','combinedReported'];
 export const CANONICAL_HEADERS = ['provincia',...FIELDS,'observaciones'];
+export const SOLUTIONS_LABEL='Soluciones habitacionales a entregarse';
 export function parseCSV(text) {
   const rows=[]; let row=[], value='', quoted=false;
   text=String(text).replace(/^\uFEFF/,'');
@@ -34,10 +35,12 @@ export function parseHousing(text,{name='Google Sheets',retrievedAt=new Date().t
   if(canonical&&CANONICAL_HEADERS.some((h,i)=>rows[0][i]!==h))throw new Error('Las columnas del CSV no corresponden a la plantilla.');
   if(!canonical){
     const header=rows.find(r=>normalize(r[0])==='provincia');
-    if(!header||!normalize(header[1]).includes('hogares')||normalize(header[2])!=='amarillo'||normalize(header[6])!=='rojo')throw new Error('La estructura de la hoja cambió. Usa la plantilla CSV o revisa las columnas originales.');
+    if(!header||normalize(header[2])!=='amarillo'||normalize(header[6])!=='rojo')throw new Error('La estructura de la hoja cambió. Usa la plantilla CSV o revisa las columnas originales.');
   }
   const sourceIssues=[];
   const readCount=(value,label,field,row,province)=>{
+    // Se mantiene el campo heredado para aceptar CSV anteriores, pero B ya no se utiliza.
+    if(field==='affected')return null;
     // La hoja original puede contener una observación en la columna N.
     // Conservamos el texto y dejamos ese total pendiente; los conteos siguen siendo estrictos.
     if(!canonical&&field==='combinedReported'&&/\p{L}/u.test(String(value??''))){
@@ -58,31 +61,33 @@ export function parseHousing(text,{name='Google Sheets',retrievedAt=new Date().t
   }
   if(records.length!==24)throw new Error(`Se esperaban las 24 provincias; se recibieron ${records.length}.`);
   const cutRow=rows.find(r=>normalize(r[0])==='fecha de corte');
-  const sourceTotals=rows.find(r=>normalize(r[0])==='total nacional');
+  // En la hoja original, el total nacional de soluciones se toma exactamente de N8.
+  const sourceTotals=canonical?null:rows[7];
   const reportedTotals=sourceTotals?Object.fromEntries(FIELDS.map((f,i)=>[f,readCount(sourceTotals[i+1],`total ${f}`,f,sourceTotals,'Total nacional')])):null;
   return {schemaVersion:1,source:{name,url:sourceUrl,retrievedAt,reportDate:cutRow?.slice(1).find(c=>c.trim())||null},reportedTotals,records,sourceIssues};
 }
 export function aggregate(records,field){const values=records.map(r=>r[field]).filter(v=>v!==null&&v!==undefined);return {value:values.length?values.reduce((a,b)=>a+b,0):null,known:values.length,total:records.length};}
+export function solutionsTotal(data,records=data.records){
+  if(records.length===data.records.length&&data.reportedTotals)return data.reportedTotals.combinedReported??null;
+  return aggregate(records,'combinedReported').value;
+}
+export function provincesWithSolutions(records){return records.filter(record=>(record.combinedReported??0)>0).length;}
 export function quality(data){
-  const issues=[]; const {records}=data;const total=aggregate(records,'affected').value;
+  const issues=[]; const {records}=data;
   for(const issue of data.sourceIssues||[])issues.push({level:'warning',title:`${issue.province}: texto en el total (${issue.cell})`,detail:`La celda contiene una observación: «${issue.value}». Se conserva el texto y el total queda pendiente, sin convertirlo en cero. Revisa su ubicación en la hoja.`});
   if(!data.source.reportDate)issues.push({level:'warning',title:'Fecha de corte sin registrar',detail:'La fecha de consulta no indica cuándo ocurrieron las afectaciones. Completa la fecha en la fuente.'});
   const combined=aggregate(records,'combinedReported');
-  if(combined.known<24)issues.push({level:'warning',title:`${24-combined.known} provincias sin total amarillo y rojo`,detail:'Los totales provinciales de la columna N están vacíos. No se interpretan como cero.'});
-  const reported=data.reportedTotals?.combinedReported;
-  if(reported!==null&&reported!==undefined&&total!==null&&reported!==total)issues.push({level:'error',title:`${reported} en el resumen frente a ${total} hogares`,detail:`Hay una diferencia de ${reported-total}. El total de hogares usa la columna B; el resumen amarillo y rojo no se suma a ese total.`});
+  if(combined.known<24)issues.push({level:'warning',title:`${24-combined.known} provincias sin dato de soluciones`,detail:'Los valores provinciales de la columna N están vacíos. No se interpretan como cero.'});
   for(const r of records){
     const red=[r.rentIdentified,r.tupeIdentified,r.tpIdentified].filter(v=>v!==null);
-    const yellow=[r.minorIdentified,r.majorIdentified].filter(v=>v!==null);
-    if((r.redUniqueReported!==null&&r.affected!==null&&r.redUniqueReported>r.affected)|| (red.length>1&&r.redUniqueReported===red.reduce((a,b)=>a+b,0)&&r.redUniqueReported>Math.max(...red)))issues.push({level:'warning',title:`${r.province}: revisar casos únicos en rojo`,detail:`La hoja reporta ${r.redUniqueReported} en rojo. Arrendamiento, TUPE y TP pueden corresponder al mismo hogar; no es posible deduplicarlos con estos agregados.`});
-    if(r.affected!==null&&r.redUniqueReported!==null&&yellow.length&&Math.max(...yellow)+r.redUniqueReported>r.affected)issues.push({level:'warning',title:`${r.province}: categorías exceden hogares`,detail:'Las categorías amarillo y rojo requieren conciliación con el total de hogares.'});
+    if(red.length>1&&r.redUniqueReported===red.reduce((a,b)=>a+b,0)&&r.redUniqueReported>Math.max(...red))issues.push({level:'warning',title:`${r.province}: revisar casos únicos en rojo`,detail:`La hoja reporta ${r.redUniqueReported} en rojo. Arrendamiento, TUPE y TP pueden corresponder al mismo hogar; no es posible deduplicarlos con estos agregados.`});
     for(const base of ['minor','major','rent','tupe','tp'])if(r[base+'Qualified']!==null&&(r[base+'Identified']===null||r[base+'Qualified']>r[base+'Identified']))issues.push({level:'error',title:`${r.province}: calificados sin sustento`,detail:`Revisar ${base}: los calificados deben formar parte de los identificados.`});
   }
   if(records.every(r=>['minor','major','rent','tupe','tp'].every(b=>r[b+'Qualified']===null)))issues.push({level:'warning',title:'Calificación pendiente de información',detail:'Todas las celdas de calificados están vacías. No se puede calcular una tasa de avance ni hogares pendientes de calificar.'});
   for(const f of FIELDS){const a=aggregate(records,f);const n=data.reportedTotals?.[f];if(n!==null&&n!==undefined&&a.known===24&&n!==a.value)issues.push({level:'error',title:`Total nacional no coincide: ${f}`,detail:`La suma provincial es ${a.value} y el resumen indica ${n}.`});}
   return issues;
 }
-export function filterRecords(records,{region='',province='',search='',onlyAffected=false}={}){return records.filter(r=>(!region||r.region===region)&&(!province||r.province===province)&&(!search||normalize(r.province+' '+r.observations).includes(normalize(search)))&&(!onlyAffected||(r.affected??0)>0));}
+export function filterRecords(records,{region='',province='',search='',onlyAffected=false}={}){return records.filter(r=>(!region||r.region===region)&&(!province||r.province===province)&&(!search||normalize(r.province+' '+r.observations).includes(normalize(search)))&&(!onlyAffected||(r.combinedReported??0)>0));}
 function safeCSV(value){let s=value===null||value===undefined?'':String(value);if(/^[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}
 export function exportCSV(records){return '\uFEFF'+[CANONICAL_HEADERS,...records.map(r=>[r.province,...FIELDS.map(f=>r[f]),r.observations])].map(row=>row.map(safeCSV).join(',')).join('\r\n');}
 export function parseOcean(text){

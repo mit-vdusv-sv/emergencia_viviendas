@@ -21,27 +21,19 @@ Abre **http://127.0.0.1:4173** y mantén la terminal abierta. El servidor escuch
 
 ## Actualización automática
 
-**En GitHub Pages:** el workflow incluido consulta vivienda y alertas cada cinco minutos y las cinco fuentes una vez al día. Si cambia el contenido, guarda los JSON en el repositorio y vuelve a publicar. Funciona aunque tu computadora y el dashboard estén apagados. La pestaña abierta revisa los JSON publicados cada cinco minutos, sin recargar la página.
+**Vivienda: conexión directa con Google Sheets.** El navegador consulta el CSV público de la hoja al abrir, al volver a la pestaña y cada tres segundos mientras está visible. Usa una URL distinta en cada lectura y desactiva la caché. No consulta el JSON publicado ni el servidor Node para obtener los datos actuales. Cuando cambia la hoja, actualiza el mapa, los filtros y los indicadores sin publicar otra versión en GitHub.
 
-**En local:** la aplicación consulta vivienda y alertas cada cinco minutos con el servidor Node activo. Su caché también es de cinco minutos. Las demás fuentes se consultan al abrir y con **Actualizar fuentes**, con las cachés indicadas abajo.
+El indicador **Sheets · directo** confirma que la última lectura de Google fue válida. Su descripción muestra la hora de comprobación con segundos. Una conexión fallida cambia a **Vivienda · respaldo**, conserva los datos y reintenta con espera progresiva. No se superponen solicitudes. La lectura se pausa al ocultar la pestaña y se retoma inmediatamente al volver. Los datos que no cambian no vuelven a dibujar toda la pantalla.
 
-El indicador **Auto · 5 min** identifica el servidor local y **Copias · 5 min** la revisión de archivos publicados. Si falla la conexión, se conserva la última copia válida. Al recuperar Internet o volver a una pestaña suspendida, se retoma la actualización. No se superponen dos ciclos del navegador. Una pestaña cerrada no consulta, pero las tareas de GitHub siguen su programación.
+La comprobación es de tres segundos después de terminar la solicitud anterior, más la latencia y propagación de Google. Es sincronización directa en pocos segundos, no una notificación push de cada edición. No se garantiza una demora de cero segundos. La hoja debe conservar acceso público de lectura. No se escriben datos ni se envían credenciales a Google.
 
-El intervalo de GitHub es aproximado: puede retrasar u omitir ejecuciones en períodos de carga. A la consulta se suman el tiempo de publicación y hasta cinco minutos de revisión del navegador. No es tiempo real garantizado. Consulta las ejecuciones en **Actions**; la fecha visible corresponde a la copia conservada, no a cada comprobación sin cambios, y no sustituye la fecha de corte. Los repositorios públicos sin actividad durante 60 días pueden tener sus tareas programadas deshabilitadas. [Límites de las tareas programadas](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
+Un CSV propio importado se conserva. **Usar Google Sheets** vuelve a activar la conexión directa. La última lectura válida se guarda en el navegador y el paquete también incluye un respaldo para abrir el dashboard si Google no responde.
 
-Una base de vivienda importada se conserva: el ciclo automático actualiza las alertas y no sobrescribe el CSV propio. **Restaurar copia** vuelve al JSON incluido y permite consultar de nuevo la hoja de Google.
+**Fuentes institucionales:** GitHub Actions consulta INAMHI cada cinco minutos; NOAA, ERFEN y SNGR se consultan a diario, junto con un respaldo de vivienda. El navegador revisa las copias institucionales publicadas cada cinco minutos. Estos ciclos son independientes: una consulta externa lenta no detiene la lectura directa de Google Sheets. En local se utiliza la API Node para las fuentes institucionales; vivienda sigue usando la conexión directa.
 
-| Fuente | Caché del servidor | Frecuencia del contenido |
-|---|---:|---|
-| Hoja de vivienda | 5 min | Depende de quien completa la hoja |
-| Alertas INAMHI | 5 min | Emisión de mensajes y boletines |
-| NOAA OISST | 6 horas | Serie mensual |
-| Índice ERFEN | 24 horas | Boletines periódicos |
-| SNGR ArcGIS | 24 horas | Análisis de exposición |
+Los trabajos programados de GitHub pueden retrasarse; esto afecta las copias institucionales y el respaldo, no la lectura directa de vivienda. [Límites de programación](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
 
-Las cinco fuentes se consultan de forma independiente. Un fallo no reemplaza un respaldo válido ni impide visualizar la base. La cartografía está incluida localmente.
-
-Para renovar los archivos desde la terminal:
+Para renovar manualmente los respaldos desde la terminal:
 
 ```sh
 node scripts/refresh.mjs
@@ -83,7 +75,7 @@ Las animaciones son SVG y CSS, no descargan gráficos de terceros, respetan la p
 
 Consulta [GUIA-GITHUB.md](GUIA-GITHUB.md) para subir el contenido del paquete y publicar el dashboard.
 
-No se creó ni publicó un repositorio remoto. Tras subir el proyecto a la rama predeterminada, selecciona **Settings → Pages → Source → GitHub Actions** y ejecuta **Publicar y actualizar dashboard**. También se ejecuta al subir cambios a esa rama. La programación automática queda definida en `.github/workflows/pages.yml`; GitHub debe tener Actions habilitado y permitir al workflow guardar los JSON.
+El dashboard está publicado en https://mit-vdusv-sv.github.io/emergencia_viviendas/. Para otra publicación, tras subir el proyecto a la rama predeterminada, selecciona **Settings → Pages → Source → GitHub Actions** y ejecuta **Publicar y actualizar dashboard**. También se ejecuta al subir cambios a esa rama. La programación automática queda definida en `.github/workflows/pages.yml`; GitHub debe tener Actions habilitado y permitir al workflow guardar los JSON.
 
 ```sh
 node --test tests/*.test.mjs
@@ -92,7 +84,7 @@ node scripts/build.mjs
 
 La vista estática queda en `dist/`, con rutas relativas para subcarpetas de GitHub Pages.
 
-**GitHub Actions ejecuta los conectores Node y GitHub Pages sirve los resultados.** No se necesita mantener un backend ni una computadora encendida. Solo se guardan cambios reales de contenido, evitando commits por cada hora de consulta. Si todas las fuentes solicitadas fallan, esa ejecución falla y el sitio anterior sigue disponible. No se usan proxies públicos para evadir CORS.
+**GitHub Pages sirve la aplicación y el navegador lee vivienda directamente de Google Sheets. GitHub Actions ejecuta los conectores institucionales y renueva los respaldos.** No se necesita mantener un backend ni una computadora encendida. Solo se guardan cambios reales de contenido, evitando commits por cada hora de consulta. Si todas las fuentes solicitadas fallan, esa ejecución falla y el sitio anterior sigue disponible. La conexión directa utiliza el acceso público de lectura que ofrece Google; no se usan proxies públicos.
 
 ## Código y fuentes
 
@@ -100,7 +92,8 @@ La vista estática queda en `dist/`, con rutas relativas para subcarpetas de Git
 app.mjs, index.html, styles.css  Interfaz y navegación
 src/surfaces.mjs                Vistas de vivienda, clima y fuentes
 src/auto-refresh.mjs            Ciclo de cinco minutos y recuperación
-src/data-refresh.mjs            Lectura de API o copias publicadas sin caché
+src/data-refresh.mjs            Lectura de API o copias institucionales sin caché
+src/housing-live.mjs            Conexión directa con Google Sheets cada 3 segundos
 src/model.mjs                   CSV, cálculos, filtros y validaciones
 src/connectors.mjs              Lectura de cinco fuentes públicas
 scripts/                       Servidor, actualización y construcción

@@ -46,25 +46,14 @@ Configuración basada en la [documentación oficial de workflows para GitHub Pag
 
 ## 3. Actualización de datos
 
-**Sí hay actualización automática sin dejar encendida tu computadora.** El archivo `.github/workflows/pages.yml` incluye:
+**Vivienda ya no espera una publicación de GitHub.** El dashboard consulta la hoja directamente al abrir, al volver a la pestaña y cada tres segundos mientras está visible. El indicador **Sheets · directo** confirma la conexión. Los cambios suelen reflejarse en segundos, según la respuesta de Google. No es un canal push ni una garantía de demora cero.
 
-- Cada cinco minutos: consulta la hoja de vivienda y las alertas INAMHI.
-- Cada día a las 00:19 de Ecuador continental: consulta también NOAA, ERFEN y exposición SNGR.
-- Cuando cambia el contenido: guarda los JSON y vuelve a publicar GitHub Pages. Si solo cambia la hora de consulta, evita otra publicación.
-- Con la pestaña abierta: el navegador revisa los archivos publicados cada cinco minutos y muestra los nuevos datos automáticamente. Un CSV propio importado se conserva en ese navegador.
+La hoja debe mantener acceso público de lectura; el navegador no modifica la hoja ni necesita claves. Si Google falla, conserva la copia válida del navegador o la incluida. Si se importó un CSV, usa **Datos y fuentes → Usar Google Sheets** para volver a la conexión directa.
 
-La programación se ejecuta solo en la rama predeterminada. En un repositorio creado como fork, habilita también los workflows programados en **Actions**. Si el workflow no puede guardar los JSON por reglas de protección de rama o políticas de la organización, la ejecución mostrará el error; hay que permitir esa escritura para completar el circuito automático.
+La tarea de GitHub queda para INAMHI cada cinco minutos y las demás fuentes institucionales a diario. También conserva un respaldo diario de vivienda para continuidad. El navegador revisa esas copias institucionales cada cinco minutos. Las consultas institucionales no bloquean las lecturas directas de vivienda.
 
-**Cinco minutos es la frecuencia programada, no una garantía de tiempo real.** GitHub puede retrasar u omitir tareas durante alta carga. Después de consultar, hay que publicar y esperar la siguiente revisión del navegador. Las fuentes también tienen sus propias frecuencias de publicación. La fecha de la copia se conserva si no cambió su contenido; cada intento de consulta queda en Actions. [Documentación de programación y límites](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
+Los cron se ejecutan solo en la rama predeterminada. En forks hay que habilitar los workflows. Las reglas del repositorio deben permitir guardar los respaldos con el token de Actions. GitHub puede retrasar tareas o desactivarlas tras inactividad; consulta Actions. [Documentación de programación](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
 
-En repositorios públicos, GitHub puede deshabilitar la programación tras 60 días sin actividad. Revisa Actions y vuelve a habilitar el workflow si ocurre. La frecuencia de cinco minutos implica hasta 288 ejecuciones diarias más la consulta diaria: revisa los minutos disponibles de tu plan si el repositorio es privado. Puedes cambiar el cron en el workflow.
+Para renovar y publicar los respaldos manualmente, ejecuta **Publicar y actualizar dashboard → Run workflow**. Los cambios de vivienda se muestran directamente aunque no se ejecute esa tarea.
 
-Para forzar una consulta y publicación, ejecuta **Publicar y actualizar dashboard → Run workflow**. No se requieren claves de las fuentes externas; se usa el token que proporciona GitHub para guardar y publicar.
-
-Para usar todas las consultas automáticas en la computadora:
-
-```sh
-node scripts/server.mjs
-```
-
-Después abre http://127.0.0.1:4173 y mantén el servidor activo. En Windows también puedes ejecutar `iniciar.cmd`.
+Para abrirlo en la computadora, ejecuta `node scripts/server.mjs` o `iniciar.cmd` y abre http://127.0.0.1:4173.

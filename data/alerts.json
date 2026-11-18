@@ -3,7 +3,7 @@
   "source": {
     "name": "INAMHI · CAP y advertencias",
     "url": "https://servicios.inamhi.gob.ec/alertas/",
-    "retrievedAt": "2026-11-17T21:55:22.641Z"
+    "retrievedAt": "2026-11-18T03:12:21.598Z"
   },
   "complete": false,
   "feeds": [
@@ -21,6 +21,60 @@
     }
   ],
   "records": [
+    {
+      "url": "https://cap-sources.s3.amazonaws.com/ec-inamhi-es/2026-11-17-22-01-53.xml",
+      "kind": "cap",
+      "id": "urn:oid:2.49.0.1.218.0.2026.11.17.22.1.53",
+      "status": "Actual",
+      "msgType": "Alert",
+      "references": "",
+      "severity": "Severe",
+      "event": "lluvia tormenta eléctrica",
+      "headline": "LLUVIAS Y TORMENTAS ELÉCTRICAS",
+      "description": "Se prevé un incremento de precipitaciones con tormentas y ráfagas de viento, con eventos muy fuertes en las provincias de la región Litoral, zonas de la cordillera occidental y norte de la Sierra. Los eventos de mayor intensidad se registrarán durante el miércoles 18 y jueves 19 de noviembre.",
+      "instruction": "¿QUÉ PUEDE PASAR? \n•Es probable que se produzca acumulación de agua en hogares, negocios y caminos susceptibles.\n•Las condiciones de las vías podrían verse afectadas por agua estancada, caída de árboles y niebla.\n•Descargas eléctricas y ráfagas de viento fuerte al generarse tormentas. \n•Riesgo de crecidas de cuerpos de agua en Esmeraldas, Santo Domingo T., Guayas, Los Ríos, Manabí y cordillera occidental de Pichincha, Cotopaxi, Bolívar y Cañar\nZONAS AFECTADAS\n•Región Litoral: Precipitaciones fuertes en Guayas, Manabí, Los Ríos, El Oro, y en zonas de Esmeraldas y Santo Domingo de los Tsáchilas.\n•Región Interandina: Mayor intensidad en Pichincha, zonas occidentales de Cotopaxi, Bolívar, Cañar, Azuay y Loja.\n•Región Amazónica: Principalmente hacia las estribaciones de la cordillera y sur de la región.\n•Región Insular: Eventos entre moderados a fuertes en las islas.",
+      "onset": "2026-11-17T16:00:00-05:00",
+      "expires": "2026-11-21T10:00:00-05:00",
+      "issued": "2026-11-17T17:01:53-05:00",
+      "area": "Galápagos",
+      "provinces": []
+    },
+    {
+      "url": "https://cap-sources.s3.amazonaws.com/ec-inamhi-es/2026-11-17-22-00-11.xml",
+      "kind": "cap",
+      "id": "urn:oid:2.49.0.1.218.0.2026.11.17.22.0.11",
+      "status": "Actual",
+      "msgType": "Alert",
+      "references": "",
+      "severity": "Extreme",
+      "event": "lluvia tormenta eléctrica",
+      "headline": "LLUVIAS Y TORMENTAS ELÉCTRICAS",
+      "description": "Se prevé un incremento de precipitaciones con tormentas y ráfagas de viento, con eventos muy fuertes en las provincias de la región Litoral, zonas de la cordillera occidental y norte de la Sierra. Los eventos de mayor intensidad se registrarán durante el miércoles 18 y jueves 19 de noviembre.",
+      "instruction": "¿QUÉ PUEDE PASAR? \n•Es probable que se produzca acumulación de agua en hogares, negocios y caminos susceptibles.\n•Las condiciones de las vías podrían verse afectadas por agua estancada, caída de árboles y niebla.\n•Descargas eléctricas y ráfagas de viento fuerte al generarse tormentas. \n•Riesgo de crecidas de cuerpos de agua en Esmeraldas, Santo Domingo T., Guayas, Los Ríos, Manabí y cordillera occidental de Pichincha, Cotopaxi, Bolívar y Cañar\nZONAS AFECTADAS\n•Región Litoral: Precipitaciones fuertes en Guayas, Manabí, Los Ríos, El Oro, y en zonas de Esmeraldas y Santo Domingo de los Tsáchilas.\n•Región Interandina: Mayor intensidad en Pichincha, zonas occidentales de Cotopaxi, Bolívar, Cañar, Azuay y Loja.\n•Región Amazónica: Principalmente hacia las estribaciones de la cordillera y sur de la región.\n•Región Insular: Eventos entre moderados a fuertes en las islas.",
+      "onset": "2026-11-17T16:00:00-05:00",
+      "expires": "2026-11-21T10:00:00-05:00",
+      "issued": "2026-11-17T17:00:11-05:00",
+      "area": "Galápagos",
+      "provinces": []
+    },
+    {
+      "url": "https://cap-sources.s3.amazonaws.com/ec-inamhi-es/2026-11-17-21-57-45.xml",
+      "kind": "cap",
+      "id": "urn:oid:2.49.0.1.218.0.2026.11.17.21.57.45",
+      "status": "Actual",
+      "msgType": "Alert",
+      "references": "",
+      "severity": "Extreme",
+      "event": "lluvia tormenta eléctrica",
+      "headline": "LLUVIAS Y TORMENTAS ELÉCTRICAS",
+      "description": "Se prevé un incremento de precipitaciones con tormentas y ráfagas de viento, con eventos muy fuertes en las provincias de la región Litoral, zonas de la cordillera occidental y norte de la Sierra. Los eventos de mayor intensidad se registrarán durante el miércoles 18 y jueves 19 de noviembre.",
+      "instruction": "¿QUÉ PUEDE PASAR? \n•Es probable que se produzca acumulación de agua en hogares, negocios y caminos susceptibles.\n•Las condiciones de las vías podrían verse afectadas por agua estancada, caída de árboles y niebla.\n•Descargas eléctricas y ráfagas de viento fuerte al generarse tormentas. \n•Riesgo de crecidas de cuerpos de agua en Esmeraldas, Santo Domingo T., Guayas, Los Ríos, Manabí y cordillera occidental de Pichincha, Cotopaxi, Bolívar y Cañar\nZONAS AFECTADAS\n•Región Litoral: Precipitaciones fuertes en Guayas, Manabí, Los Ríos, El Oro, y en zonas de Esmeraldas y Santo Domingo de los Tsáchilas.\n•Región Interandina: Mayor intensidad en Pichincha, zonas occidentales de Cotopaxi, Bolívar, Cañar, Azuay y Loja.\n•Región Amazónica: Principalmente hacia las estribaciones de la cordillera y sur de la región.\n•Región Insular: Eventos entre moderados a fuertes en las islas.",
+      "onset": "2026-11-17T16:00:00-05:00",
+      "expires": "2026-11-21T10:00:00-05:00",
+      "issued": "2026-11-17T16:57:45-05:00",
+      "area": "Galápagos",
+      "provinces": []
+    },
     {
       "url": "https://cap-sources.s3.amazonaws.com/ec-inamhi-es/2026-11-17-21-52-26.xml",
       "kind": "cap",
@@ -256,5 +310,5 @@
       "provinces": []
     }
   ],
-  "activeAtRetrieval": 3
+  "activeAtRetrieval": 6
 }

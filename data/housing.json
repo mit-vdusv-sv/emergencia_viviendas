@@ -3,7 +3,7 @@
   "source": {
     "name": "Google Sheets",
     "url": "https://docs.google.com/spreadsheets/d/1WoxZ11c5MAoZ6nhcRymTvVK6GkV6kBOG/edit?gid=1128467625",
-    "retrievedAt": "2026-11-17T04:36:39.499Z",
+    "retrievedAt": "2026-11-18T13:58:49.550Z",
     "reportDate": null
   },
   "reportedTotals": {
@@ -12,14 +12,14 @@
     "minorQualified": null,
     "majorIdentified": null,
     "majorQualified": null,
-    "rentIdentified": 194,
+    "rentIdentified": 183,
     "rentQualified": null,
     "tupeIdentified": 33,
     "tupeQualified": null,
     "tpIdentified": 8,
     "tpQualified": null,
-    "redUniqueReported": 235,
-    "combinedReported": 411
+    "redUniqueReported": 224,
+    "combinedReported": 400
   },
   "records": [
     {
@@ -156,14 +156,14 @@
       "minorQualified": null,
       "majorIdentified": null,
       "majorQualified": null,
-      "rentIdentified": 17,
+      "rentIdentified": 6,
       "rentQualified": null,
       "tupeIdentified": 17,
       "tupeQualified": null,
       "tpIdentified": null,
       "tpQualified": null,
-      "redUniqueReported": 34,
-      "combinedReported": 34,
+      "redUniqueReported": 23,
+      "combinedReported": 23,
       "observations": "Conformando expendientes para arrendamiento, en espera de la documentación del GAD Muisne"
     },
     {

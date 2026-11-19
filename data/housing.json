@@ -3,23 +3,23 @@
   "source": {
     "name": "Google Sheets",
     "url": "https://docs.google.com/spreadsheets/d/1WoxZ11c5MAoZ6nhcRymTvVK6GkV6kBOG/edit?gid=1128467625",
-    "retrievedAt": "2026-11-18T13:58:49.550Z",
+    "retrievedAt": "2026-11-19T14:27:13.034Z",
     "reportDate": null
   },
   "reportedTotals": {
     "affected": null,
-    "minorIdentified": 176,
+    "minorIdentified": 177,
     "minorQualified": null,
     "majorIdentified": null,
     "majorQualified": null,
-    "rentIdentified": 183,
-    "rentQualified": null,
+    "rentIdentified": 188,
+    "rentQualified": 9,
     "tupeIdentified": 33,
     "tupeQualified": null,
     "tpIdentified": 8,
     "tpQualified": null,
-    "redUniqueReported": 224,
-    "combinedReported": 400
+    "redUniqueReported": 234,
+    "combinedReported": 411
   },
   "records": [
     {
@@ -56,7 +56,7 @@
       "tpQualified": null,
       "redUniqueReported": 1,
       "combinedReported": 5,
-      "observations": "calificando"
+      "observations": "Asignación de vehículo para recopilación de expediente el 19 de noviembre"
     },
     {
       "province": "Cañar",
@@ -146,7 +146,7 @@
       "tpQualified": null,
       "redUniqueReported": 2,
       "combinedReported": 2,
-      "observations": ""
+      "observations": "Pendiente la entrega del GAD de documentación sobre los predios"
     },
     {
       "province": "Esmeraldas",
@@ -164,7 +164,7 @@
       "tpQualified": null,
       "redUniqueReported": 23,
       "combinedReported": 23,
-      "observations": "Conformando expendientes para arrendamiento, en espera de la documentación del GAD Muisne"
+      "observations": "Conformando expendientes para arrendamiento, en espera del EVIN y la documentación del GAD Muisne"
     },
     {
       "province": "Galápagos",
@@ -174,15 +174,15 @@
       "minorQualified": null,
       "majorIdentified": null,
       "majorQualified": null,
-      "rentIdentified": 5,
-      "rentQualified": null,
+      "rentIdentified": 10,
+      "rentQualified": 9,
       "tupeIdentified": 16,
       "tupeQualified": null,
       "tpIdentified": null,
       "tpQualified": null,
-      "redUniqueReported": 21,
-      "combinedReported": 21,
-      "observations": ""
+      "redUniqueReported": 31,
+      "combinedReported": 31,
+      "observations": "Conformando expendientes para arrendamiento y la documentación del GAD sobre el predio propuesto para el TUPE"
     },
     {
       "province": "Guayas",
@@ -200,7 +200,7 @@
       "tpQualified": null,
       "redUniqueReported": 167,
       "combinedReported": 334,
-      "observations": ""
+      "observations": "El equipo se encuentra en campo levantando la información y evaluando las viviendas"
     },
     {
       "province": "Imbabura",
@@ -272,7 +272,7 @@
       "tpQualified": null,
       "redUniqueReported": 0,
       "combinedReported": 0,
-      "observations": "Son vivienda palafíticas y no tienen afectaciones estructurales.  Hay otras 48 viviendas afectadas, esperan las fichas EVIN"
+      "observations": "Son vivienda palafíticas y no tienen afectaciones estructurales. Hay otras 48 viviendas afectadas, esperan las fichas EVIN"
     },
     {
       "province": "Morona Santiago",
@@ -350,7 +350,7 @@
       "province": "Pichincha",
       "region": "Sierra",
       "affected": null,
-      "minorIdentified": null,
+      "minorIdentified": 1,
       "minorQualified": null,
       "majorIdentified": null,
       "majorQualified": null,
@@ -361,7 +361,7 @@
       "tpIdentified": null,
       "tpQualified": null,
       "redUniqueReported": 0,
-      "combinedReported": 0,
+      "combinedReported": 1,
       "observations": ""
     },
     {
@@ -380,7 +380,7 @@
       "tpQualified": null,
       "redUniqueReported": 9,
       "combinedReported": 14,
-      "observations": "conformando expendientes"
+      "observations": "Conformando expedientes para arrendamiento de emergencia"
     },
     {
       "province": "Santo Domingo de los Tsáchilas",

@@ -3,7 +3,7 @@
   "source": {
     "name": "INAMHI · CAP y advertencias",
     "url": "https://servicios.inamhi.gob.ec/alertas/",
-    "retrievedAt": "2026-11-18T03:12:21.598Z"
+    "retrievedAt": "2026-11-21T17:26:26.327Z"
   },
   "complete": false,
   "feeds": [
@@ -310,5 +310,5 @@
       "provinces": []
     }
   ],
-  "activeAtRetrieval": 6
+  "activeAtRetrieval": 0
 }

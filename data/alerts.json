@@ -3,15 +3,15 @@
   "source": {
     "name": "INAMHI · CAP y advertencias",
     "url": "https://servicios.inamhi.gob.ec/alertas/",
-    "retrievedAt": "2026-11-25T15:36:54.018Z"
+    "retrievedAt": "2026-11-25T20:40:34.846Z"
   },
   "complete": false,
   "feeds": [
     {
       "name": "CAP",
       "ok": true,
-      "complete": false,
-      "note": "1 documentos CAP no se pudieron leer."
+      "complete": true,
+      "note": ""
     },
     {
       "name": "Advertencias",
@@ -55,6 +55,24 @@
       "expires": "2026-11-27T22:06:00-05:00",
       "issued": "2026-11-24T17:05:14-05:00",
       "area": "Sur de Amazonía",
+      "provinces": []
+    },
+    {
+      "url": "https://cap-sources.s3.amazonaws.com/ec-inamhi-es/2026-11-24-21-40-00.xml",
+      "kind": "cap",
+      "id": "urn:oid:2.49.0.1.218.0.2026.11.24.21.40.0",
+      "status": "Actual",
+      "msgType": "Alert",
+      "references": "",
+      "severity": "Extreme",
+      "event": "lluvia tormenta eléctrica",
+      "headline": "LLUVIAS Y TORMENTAS ELÉCTRICAS",
+      "description": "Se prevé un incremento de precipitaciones con tormentas y ráfagas de viento, con eventos muy fuertes en las provincias de la región Litoral, Galápagos, zonas de la cordillera occidental y norte de la Sierra.\n\nEntre los principales factores asociados al evento previsto se destacan la divergencia de vientos en los niveles altos de la atmósfera, el aporte de humedad y la convergencia de vientos en los niveles bajos, el paso de ondas ecuatoriales troposféricas, la incidencia de la Zona de Convergencia Intertropical (ZCIT), así como las elevadas temperaturas de la superficie del mar, asociadas al desarrollo del evento cálido denominado «El Niño».",
+      "instruction": "¿QUÉ PUEDE PASAR? \n•Es probable que se produzca acumulación de agua en hogares, negocios y caminos susceptibles.\n•Las condiciones de las vías podrían verse afectadas por agua estancada, caída de árboles y niebla.\n•Descargas eléctricas y ráfagas de viento fuerte al generarse tormentas. \n• Riesgo de crecidas y desbordamiento de cuerpos de agua en Esmeraldas, Santo Domingo T., Guayas, Los Ríos, Manabí y cordillera occidental de Pichincha, Cotopaxi, Bolívar y Cañar.\nZONAS AFECTADAS\n• Región Litoral: Lluvias fuertes en la zona interior de Esmeraldas, Santo Domingo, Manabí, Los Ríos, Guayas, Santa Elena y El Oro .\n• Región Interandina: Mayor intensidad en Pichincha, zonas occidentales de Carchi, Imbabura, Cotopaxi, Bolívar, Cañar, Azuay y Loja.\n• Región Amazónica: Principalmente hacia el noreste de la región y zonas de estribación de cordillera oriental.\n• Región Insular: Eventos entre moderados a fuertes en las islas.",
+      "onset": "2026-11-24T16:00:00-05:00",
+      "expires": "2026-11-27T22:00:00-05:00",
+      "issued": "2026-11-24T16:40:00-05:00",
+      "area": "Galápagos",
       "provinces": []
     },
     {
@@ -490,5 +508,5 @@
       "provinces": []
     }
   ],
-  "activeAtRetrieval": 9
+  "activeAtRetrieval": 10
 }

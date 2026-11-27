@@ -3,23 +3,23 @@
   "source": {
     "name": "Google Sheets",
     "url": "https://docs.google.com/spreadsheets/d/1WoxZ11c5MAoZ6nhcRymTvVK6GkV6kBOG/edit?gid=1128467625",
-    "retrievedAt": "2026-11-19T14:27:13.034Z",
+    "retrievedAt": "2026-11-27T15:05:52.920Z",
     "reportDate": null
   },
   "reportedTotals": {
     "affected": null,
-    "minorIdentified": 177,
+    "minorIdentified": 176,
     "minorQualified": null,
     "majorIdentified": null,
     "majorQualified": null,
-    "rentIdentified": 188,
-    "rentQualified": 9,
+    "rentIdentified": 79,
+    "rentQualified": 26,
     "tupeIdentified": 33,
     "tupeQualified": null,
     "tpIdentified": 8,
     "tpQualified": null,
-    "redUniqueReported": 234,
-    "combinedReported": 411
+    "redUniqueReported": 213,
+    "combinedReported": 389
   },
   "records": [
     {
@@ -156,14 +156,14 @@
       "minorQualified": null,
       "majorIdentified": null,
       "majorQualified": null,
-      "rentIdentified": 6,
-      "rentQualified": null,
+      "rentIdentified": 2,
+      "rentQualified": 2,
       "tupeIdentified": 17,
       "tupeQualified": null,
       "tpIdentified": null,
       "tpQualified": null,
-      "redUniqueReported": 23,
-      "combinedReported": 23,
+      "redUniqueReported": 17,
+      "combinedReported": 19,
       "observations": "Conformando expendientes para arrendamiento, en espera del EVIN y la documentación del GAD Muisne"
     },
     {
@@ -174,14 +174,14 @@
       "minorQualified": null,
       "majorIdentified": null,
       "majorQualified": null,
-      "rentIdentified": 10,
-      "rentQualified": 9,
+      "rentIdentified": 70,
+      "rentQualified": 24,
       "tupeIdentified": 16,
       "tupeQualified": null,
       "tpIdentified": null,
       "tpQualified": null,
-      "redUniqueReported": 31,
-      "combinedReported": 31,
+      "redUniqueReported": 16,
+      "combinedReported": 16,
       "observations": "Conformando expendientes para arrendamiento y la documentación del GAD sobre el predio propuesto para el TUPE"
     },
     {
@@ -192,7 +192,7 @@
       "minorQualified": null,
       "majorIdentified": null,
       "majorQualified": null,
-      "rentIdentified": 167,
+      "rentIdentified": 7,
       "rentQualified": null,
       "tupeIdentified": null,
       "tupeQualified": null,
@@ -350,7 +350,7 @@
       "province": "Pichincha",
       "region": "Sierra",
       "affected": null,
-      "minorIdentified": 1,
+      "minorIdentified": null,
       "minorQualified": null,
       "majorIdentified": null,
       "majorQualified": null,
@@ -361,7 +361,7 @@
       "tpIdentified": null,
       "tpQualified": null,
       "redUniqueReported": 0,
-      "combinedReported": 1,
+      "combinedReported": 0,
       "observations": ""
     },
     {
@@ -372,14 +372,14 @@
       "minorQualified": null,
       "majorIdentified": null,
       "majorQualified": null,
-      "rentIdentified": 5,
+      "rentIdentified": null,
       "rentQualified": null,
       "tupeIdentified": null,
       "tupeQualified": null,
       "tpIdentified": 4,
       "tpQualified": null,
       "redUniqueReported": 9,
-      "combinedReported": 14,
+      "combinedReported": 9,
       "observations": "Conformando expedientes para arrendamiento de emergencia"
     },
     {
